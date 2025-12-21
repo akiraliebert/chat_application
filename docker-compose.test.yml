@@ -1,0 +1,36 @@
+name: chat_application_test
+
+services:
+  test_app:
+    build: .
+    container_name: chat_application_app_test
+    depends_on:
+      test_db:
+        condition: service_healthy
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env.test
+    volumes:
+      - .:/app
+    environment:
+      ENV_FILE: .env.test
+      PYTHONPATH: /app
+    command: bash -c "alembic upgrade head && pytest -v"
+
+  test_db:
+    image: postgres:15
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $POSTGRES_USER"]
+      interval: 1s
+      retries: 30
+    container_name: chat_application_test_db
+    env_file:
+      - .env.test
+    ports:
+      - "${POSTGRES_PORT}:5432"
+    volumes:
+      - test_postgres_data:/var/lib/postgresql/data
+
+volumes:
+  test_postgres_data:
