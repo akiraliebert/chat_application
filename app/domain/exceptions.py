@@ -16,3 +16,15 @@ class UserAlreadyActiveError(DomainError):
 
 class UserAlreadyInactiveError(DomainError):
     pass
+
+
+class InvalidRoomNameError(DomainError):
+    pass
+
+
+class UserNotInRoomError(DomainError):
+    pass
+
+
+class UserAlreadyInRoomError(DomainError):
+    pass
