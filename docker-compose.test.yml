@@ -16,7 +16,7 @@ services:
     environment:
       ENV_FILE: .env.test
       PYTHONPATH: /app
-    command: pytest -v
+    command: bash -c "alembic upgrade head && pytest -v"
 
   test_db:
     image: postgres:15
