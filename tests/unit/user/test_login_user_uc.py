@@ -1,6 +1,6 @@
 import pytest
 
-from app.application.use_cases.login_user import (
+from app.application.use_cases.user.login_user import (
     LoginUserUseCase,
     InvalidCredentialsError,
     InactiveUserError,

@@ -1,6 +1,6 @@
 import pytest
 
-from app.application.use_cases.register_user import RegisterUserUseCase
+from app.application.use_cases.user.register_user import RegisterUserUseCase
 from app.application.exceptions import EmailAlreadyExistsError
 
 from app.domain.entities.user import User

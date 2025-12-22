@@ -14,8 +14,8 @@ from app.interfaces.rest.deps.user import (
     get_jwt_service
 )
 
-from app.application.use_cases.register_user import RegisterUserUseCase
-from app.application.use_cases.login_user import (
+from app.application.use_cases.user.register_user import RegisterUserUseCase
+from app.application.use_cases.user.login_user import (
     LoginUserUseCase,
     InvalidCredentialsError,
     InactiveUserError,
