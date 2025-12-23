@@ -28,3 +28,7 @@ class UserNotInRoomError(DomainError):
 
 class UserAlreadyInRoomError(DomainError):
     pass
+
+
+class InvalidMessageContentError(DomainError):
+    pass
