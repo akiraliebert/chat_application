@@ -1,7 +1,7 @@
 from uuid import UUID
 
 from app.application.uow.unit_of_work import UnitOfWork
-from app.application.exceptions import RoomAlreadyExistsError
+from app.application.exceptions import RoomAlreadyExistsError, SecondUserIsRequired
 from app.domain.entities.room import Room
 from app.domain.enums.room_type import RoomType
 from app.domain.repositories.room_repository import RoomRepository
@@ -29,7 +29,7 @@ class CreateRoomUseCase:
         async with self._uow:
             if room_type == RoomType.PRIVATE:
                 if second_user_id is None:
-                    raise ValueError("second_user_id is required for private room")
+                    raise SecondUserIsRequired()
 
                 exists = await self._room_repository.exists_private_room(
                     owner_id,

@@ -24,3 +24,7 @@ class RoomNotFoundError(ApplicationError):
 
 class UserAlreadyInRoomError(ApplicationError):
     pass
+
+
+class SecondUserIsRequired(ApplicationError):
+    pass

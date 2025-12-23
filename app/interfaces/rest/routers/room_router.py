@@ -13,12 +13,15 @@ from app.interfaces.rest.deps.room import (
 from app.interfaces.rest.deps.user import get_current_user
 
 from app.domain.entities.user import User
+from app.domain.value_objects.room_id import RoomId
+
 from app.application.use_cases.room.create_room import CreateRoomUseCase
 from app.application.use_cases.room.join_room import JoinRoomUseCase
 from app.application.exceptions import (
     RoomAlreadyExistsError,
     RoomNotFoundError,
     UserAlreadyInRoomError,
+    SecondUserIsRequired
 )
 
 
@@ -41,6 +44,11 @@ async def create_room(
             owner_id=current_user.id.value,
             room_type=data.room_type,
             second_user_id=data.second_user_id,
+        )
+    except SecondUserIsRequired:
+        raise HTTPException(
+            status_code=status.HTTP_422_UNPROCESSABLE_CONTENT,
+            detail="second_user_id is required for private room",
         )
     except RoomAlreadyExistsError:
         raise HTTPException(
@@ -93,7 +101,7 @@ async def get_room(
     current_user: User = Depends(get_current_user),
     room_repository=Depends(get_room_repository),
 ):
-    room = await room_repository.get_by_id(room_id=room_id)
+    room = await room_repository.get_by_id(room_id=RoomId(room_id))
 
     if room is None or not room.is_member(current_user.id.value):
         raise HTTPException(
