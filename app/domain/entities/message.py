@@ -41,7 +41,7 @@ class Message:
         return self._room_id
 
     @property
-    def sender_id(self) -> UserId:
+    def sender_id(self) -> UserId | None:
         return self._sender_id
 
     @property
