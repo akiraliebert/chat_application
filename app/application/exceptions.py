@@ -28,3 +28,7 @@ class UserAlreadyInRoomError(ApplicationError):
 
 class SecondUserIsRequired(ApplicationError):
     pass
+
+
+class UserNotInRoomError(ApplicationError):
+    pass
