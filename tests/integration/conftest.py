@@ -5,6 +5,7 @@ from sqlalchemy.orm import sessionmaker
 from app.infrastructure.database.uow.sqlalchemy_uow import SQLAlchemyUnitOfWork
 from app.infrastructure.database.repositories.user_repository import PostgresUserRepository
 from app.infrastructure.database.repositories.room_repository import PostgresRoomRepository
+from app.infrastructure.database.repositories.message_repository import PostgresMessageRepository
 from app.config.settings import settings
 
 
@@ -30,3 +31,8 @@ def user_repository(db_session: AsyncSession):
 @pytest_asyncio.fixture
 def room_repository(db_session: AsyncSession):
     return PostgresRoomRepository(db_session)
+
+
+@pytest_asyncio.fixture
+def message_repository(db_session: AsyncSession):
+    return PostgresMessageRepository(db_session)
