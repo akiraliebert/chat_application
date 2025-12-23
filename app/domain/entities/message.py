@@ -1,5 +1,4 @@
 from datetime import datetime, timezone
-from uuid import UUID
 
 from app.domain.value_objects.message_id import MessageId
 from app.domain.value_objects.room_id import RoomId
