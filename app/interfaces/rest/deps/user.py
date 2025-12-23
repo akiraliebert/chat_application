@@ -6,17 +6,12 @@ from uuid import UUID
 from app.domain.value_objects.user_id import UserId
 from app.infrastructure.database.db import get_db_session
 from app.infrastructure.database.repositories.user_repository import PostgresUserRepository
-from app.infrastructure.database.uow.sqlalchemy_uow import SQLAlchemyUnitOfWork
 from app.infrastructure.security.password_hasher import BCryptPasswordHasher
 from app.infrastructure.security.jwt_service import JoseJWTService
 from app.application.security.password_hasher import PasswordHasher
 from app.application.security.jwt_service import JWTService
 from app.infrastructure.security.jwt_service import JWTErrorInvalidToken
 from app.domain.repositories.user_repository import UserRepository
-
-
-async def get_uow(session: AsyncSession = Depends(get_db_session)):
-    return SQLAlchemyUnitOfWork(session)
 
 
 async def get_user_repository(session: AsyncSession = Depends(get_db_session)):

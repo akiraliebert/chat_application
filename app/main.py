@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 
 from app.interfaces.rest.routers.auth_router import router as auth_router
-from app.interfaces.rest.routers.users_router import router as users_router
+from app.interfaces.rest.routers.user_router import router as users_router
 
 
 def create_app() -> FastAPI:

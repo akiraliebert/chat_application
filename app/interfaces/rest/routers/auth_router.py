@@ -8,11 +8,11 @@ from app.interfaces.rest.schemas.auth_schema import (
     UserResponse,
 )
 from app.interfaces.rest.deps.user import (
-    get_uow,
     get_user_repository,
     get_password_hasher,
     get_jwt_service
 )
+from app.interfaces.rest.deps.common import get_uow
 
 from app.application.use_cases.user.register_user import RegisterUserUseCase
 from app.application.use_cases.user.login_user import (
