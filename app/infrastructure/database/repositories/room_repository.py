@@ -1,7 +1,7 @@
 from typing import Optional
 from uuid import UUID
 
-from sqlalchemy import select, and_
+from sqlalchemy import select, and_, delete
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.domain.entities.room import Room
@@ -28,6 +28,7 @@ class PostgresRoomRepository(RoomRepository):
         )
 
         self._session.add(room_model)
+        await self._session.flush()  # фиксируем добавление room для room_member
 
         for user_id in room.members:
             self._session.add(
@@ -60,11 +61,7 @@ class PostgresRoomRepository(RoomRepository):
             created_at=room_model.created_at,
         )
 
-    async def exists_private_room(
-        self,
-        user_a_id: UUID,
-        user_b_id: UUID,
-    ) -> bool:
+    async def exists_private_room(self, user_a_id: UUID, user_b_id: UUID) -> bool:
         stmt = (
             select(RoomModel.id)
             .join(RoomMemberModel)
@@ -88,3 +85,20 @@ class PostgresRoomRepository(RoomRepository):
         room_ids = [row[0] for row in result.all()]
 
         return bool(room_ids)
+
+    async def add_member(self, room_id: RoomId, user_id: UUID) -> None:
+        self._session.add(
+            RoomMemberModel(
+                room_id=room_id.value,
+                user_id=user_id,
+            )
+        )
+
+    async def remove_member(self, room_id: RoomId, user_id: UUID) -> None:
+        stmt = delete(RoomMemberModel).where(
+            RoomMemberModel.room_id == room_id.value,
+            RoomMemberModel.user_id == user_id,
+        )
+        await self._session.execute(stmt)
+
+

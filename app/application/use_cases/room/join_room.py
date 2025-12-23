@@ -30,3 +30,5 @@ class JoinRoomUseCase:
                 raise UserAlreadyInRoomError()
 
             room.add_member(user_id)
+
+            await self._room_repository.add_member(room.id, user_id)
