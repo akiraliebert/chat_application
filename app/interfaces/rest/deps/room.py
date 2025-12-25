@@ -3,6 +3,8 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.application.use_cases.room.create_room import CreateRoomUseCase
 from app.application.use_cases.room.join_room import JoinRoomUseCase
+from app.application.use_cases.room.leave_room import LeaveRoomUseCase
+
 
 from app.domain.repositories.room_repository import RoomRepository
 
@@ -30,3 +32,9 @@ def get_join_room_use_case(
     room_repository: RoomRepository = Depends(get_room_repository),
 ) -> JoinRoomUseCase:
     return JoinRoomUseCase(uow=uow, room_repository=room_repository)
+
+def get_leave_room_use_case(
+    uow=Depends(get_uow),
+    room_repository: RoomRepository = Depends(get_room_repository),
+) -> LeaveRoomUseCase:
+    return LeaveRoomUseCase(uow=uow, room_repository=room_repository)

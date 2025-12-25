@@ -8,7 +8,8 @@ from app.interfaces.rest.schemas.room_schema import (
 from app.interfaces.rest.deps.room import (
     get_create_room_use_case,
     get_join_room_use_case,
-    get_room_repository
+    get_leave_room_use_case,
+    get_room_repository,
 )
 from app.interfaces.rest.deps.user import get_current_user
 
@@ -17,11 +18,13 @@ from app.domain.value_objects.room_id import RoomId
 
 from app.application.use_cases.room.create_room import CreateRoomUseCase
 from app.application.use_cases.room.join_room import JoinRoomUseCase
+from app.application.use_cases.room.leave_room import LeaveRoomUseCase
 from app.application.exceptions import (
     RoomAlreadyExistsError,
     RoomNotFoundError,
     UserAlreadyInRoomError,
-    SecondUserIsRequired
+    SecondUserIsRequired,
+    UserNotInRoomError
 )
 
 
@@ -117,3 +120,30 @@ async def get_room(
         members=list(room.members),
         created_at=room.created_at,
     )
+
+
+@router.post(
+    "/{room_id}/leave",
+    status_code=status.HTTP_204_NO_CONTENT,
+)
+async def leave_room(
+    room_id: UUID,
+    current_user: User = Depends(get_current_user),
+    use_case: LeaveRoomUseCase = Depends(get_leave_room_use_case),
+):
+    try:
+        await use_case.execute(
+            room_id=room_id,
+            user_id=current_user.id.value,
+        )
+    except RoomNotFoundError:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Room not found",
+        )
+    except UserNotInRoomError:
+        raise HTTPException(
+            status_code=status.HTTP_409_CONFLICT,
+            detail="User not found in room",
+        )
+
