@@ -24,7 +24,6 @@ def test_user_created_successfully():
     user = create_user()
 
     assert user.is_active is True
-    assert user.is_online is False
     assert user.email.value == "test@example.com"
     assert user.created_at.tzinfo == timezone.utc
 
@@ -34,30 +33,12 @@ def test_invalid_email_raises_error():
         Email("invalid-email")
 
 
-def test_user_go_online():
+def test_user_deactivate_success():
     user = create_user()
-
-    user.go_online()
-
-    assert user.is_online is True
-
-
-def test_inactive_user_cannot_go_online():
-    user = create_user()
-    user.deactivate()
-
-    with pytest.raises(UserAlreadyInactiveError):
-        user.go_online()
-
-
-def test_user_deactivate_sets_offline():
-    user = create_user()
-    user.go_online()
 
     user.deactivate()
 
     assert user.is_active is False
-    assert user.is_online is False
 
 
 def test_deactivate_inactive_user_raises():

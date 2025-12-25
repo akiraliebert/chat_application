@@ -25,7 +25,6 @@ async def test_add_and_get_user_by_id(user_repository, uow):
     assert found.email == user.email
     assert found.password == user.password
     assert found.is_active is True
-    assert found.is_online is False
     assert found.created_at.tzinfo == timezone.utc
 
 

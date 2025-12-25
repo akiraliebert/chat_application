@@ -30,11 +30,6 @@ class UserModel(Base):
         nullable=False,
     )
 
-    is_online: Mapped[bool] = mapped_column(
-        Boolean,
-        nullable=False,
-    )
-
     created_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True),
         nullable=False,

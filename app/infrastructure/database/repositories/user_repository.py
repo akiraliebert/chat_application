@@ -22,7 +22,6 @@ class PostgresUserRepository(UserRepository):
             email=user.email.value,
             password_hash=user.password.value,
             is_active=user.is_active,
-            is_online=user.is_online,
             created_at=user.created_at,
         )
         self._session.add(model)
@@ -59,6 +58,5 @@ class PostgresUserRepository(UserRepository):
             email=Email(model.email),
             password=Password(model.password_hash),
             is_active=model.is_active,
-            is_online=model.is_online,
             created_at=model.created_at,
         )

@@ -27,5 +27,4 @@ class UserResponse(BaseModel):
     id: UUID
     email: EmailStr
     is_active: bool
-    is_online: bool
     created_at: datetime

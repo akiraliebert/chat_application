@@ -14,6 +14,5 @@ async def get_me(current_user: User = Depends(get_current_user)):
         id=current_user.id.value,
         email=current_user.email.value,
         is_active=current_user.is_active,
-        is_online=current_user.is_online,
         created_at=current_user.created_at,
     )

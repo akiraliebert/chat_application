@@ -57,7 +57,6 @@ async def register(
         id=user.id.value,
         email=user.email.value,
         is_active=user.is_active,
-        is_online=user.is_online,
         created_at=user.created_at,
     )
 

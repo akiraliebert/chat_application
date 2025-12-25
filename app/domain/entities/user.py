@@ -16,14 +16,12 @@ class User:
         email: Email,
         password: Password,
         is_active: bool = True,
-        is_online: bool = False,
         created_at: datetime | None = None,
     ):
         self._id = user_id
         self._email = email
         self._password = password
         self._is_active = is_active
-        self._is_online = is_online
         self._created_at = created_at or datetime.now(timezone.utc)
 
     @property
@@ -43,10 +41,6 @@ class User:
         return self._is_active
 
     @property
-    def is_online(self) -> bool:
-        return self._is_online
-
-    @property
     def created_at(self) -> datetime:
         return self._created_at
 
@@ -59,12 +53,3 @@ class User:
         if not self._is_active:
             raise UserAlreadyInactiveError()
         self._is_active = False
-        self._is_online = False
-
-    def go_online(self) -> None:
-        if not self._is_active:
-            raise UserAlreadyInactiveError()
-        self._is_online = True
-
-    def go_offline(self) -> None:
-        self._is_online = False
