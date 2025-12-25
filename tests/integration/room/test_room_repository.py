@@ -59,7 +59,7 @@ async def test_add_and_get_private_room(room_repository, uow):
 
 
 @pytest.mark.asyncio
-async def test_add_member_persists(room_repository, uow):
+async def test_add_and_remove_member_persists(room_repository, uow):
     owner_id = uuid4()
     new_user_id = uuid4()
 
@@ -79,6 +79,13 @@ async def test_add_member_persists(room_repository, uow):
     found = await room_repository.get_by_id(room.id)
 
     assert found.is_member(new_user_id) is True
+
+    async with uow:
+        await room_repository.remove_member(room.id, new_user_id)
+
+    found = await room_repository.get_by_id(room.id)
+
+    assert found.is_member(new_user_id) is False
 
 
 @pytest.mark.asyncio
