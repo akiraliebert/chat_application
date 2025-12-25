@@ -109,7 +109,7 @@ async def test_create_private_room_and_conflict(
 
 
 @pytest.mark.asyncio
-async def test_join_room_flow(
+async def test_join_leave_room_flow(
     client: AsyncClient,
     auth_tokens,
 ):
@@ -155,6 +155,25 @@ async def test_join_room_flow(
     )
 
     assert repeat_join.status_code == 409
+
+    leave_resp = await client.post(
+        f"/rooms/{room_id}/leave",
+        headers={
+            "Authorization": f"Bearer {second_token}",
+        },
+    )
+
+    assert leave_resp.status_code == 204
+
+    # повторный leave
+    repeat_leave = await client.post(
+        f"/rooms/{room_id}/leave",
+        headers={
+            "Authorization": f"Bearer {second_token}",
+        },
+    )
+
+    assert repeat_leave.status_code == 409
 
 
 @pytest.mark.asyncio
