@@ -1,6 +1,6 @@
 import pytest
 
-from app.application.use_cases.message.send_message import SendMessageUseCase
+from app.application.use_cases.message.create_user_message import CreateUserMessageUseCase
 from app.application.exceptions import RoomNotFoundError, UserNotInRoomError
 from app.domain.entities.message import Message
 from app.domain.value_objects.room_id import RoomId
@@ -16,7 +16,7 @@ async def test_send_message_success(
 ):
     room_repository.get_by_id.return_value = room
 
-    use_case = SendMessageUseCase(
+    use_case = CreateUserMessageUseCase(
         uow=uow,
         message_repository=message_repository,
         room_repository=room_repository,
@@ -45,7 +45,7 @@ async def test_send_message_room_not_found(
 ):
     room_repository.get_by_id.return_value = None
 
-    use_case = SendMessageUseCase(
+    use_case = CreateUserMessageUseCase(
         uow=uow,
         message_repository=message_repository,
         room_repository=room_repository,
@@ -73,7 +73,7 @@ async def test_send_message_user_not_in_room(
 ):
     room_repository.get_by_id.return_value = room
 
-    use_case = SendMessageUseCase(
+    use_case = CreateUserMessageUseCase(
         uow=uow,
         message_repository=message_repository,
         room_repository=room_repository,

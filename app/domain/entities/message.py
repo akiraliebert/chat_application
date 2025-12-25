@@ -54,3 +54,18 @@ class Message:
     @property
     def created_at(self) -> datetime:
         return self._created_at
+
+    @classmethod
+    def system(
+            cls,
+            *,
+            room_id,
+            content: str,
+    ) -> "Message":
+        return cls(
+            message_id=MessageId(),
+            room_id=room_id,
+            sender_id=None,
+            content=MessageContent(content),
+            message_type=MessageType.SYSTEM,
+        )

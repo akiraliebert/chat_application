@@ -10,7 +10,7 @@ from app.domain.value_objects.room_id import RoomId
 from app.domain.value_objects.user_id import UserId
 
 
-class SendMessageUseCase:
+class CreateUserMessageUseCase:
     def __init__(
         self,
         uow: UnitOfWork,
